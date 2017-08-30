@@ -1,31 +1,48 @@
 /**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
+ * react-native 学习 demo
+ * @author: GX
  */
 
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {
-  AppRegistry,
-  StyleSheet,
   Text,
-  View
+  View,
+  Image,
+  StyleSheet,
+  AppRegistry,
 } from 'react-native';
+import TabNavigator from 'react-native-tab-navigator';
 
 export default class github extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      selectedTab: 'home'
+    }
+  }
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.ios.js
-        </Text>
-        <Text style={styles.instructions}>
-          Press Cmd+R to reload,{'\n'}
-          Cmd+D or shake for dev menu
-        </Text>
+        <TabNavigator>
+          <TabNavigator.Item
+            selected={this.state.selectedTab === 'home'}
+            title="首页"
+            renderIcon={() => <Image source={require('./image/ic_polular.png')} style={[styles.image, { tintColor: '#4998a1'}]} />}
+            renderSelectedIcon={() => <Image source={require('./image/ic_polular.png')} style={[styles.image, { tintColor: '#4998a1'}]} />}
+            onPress={ () => { this.setState({ selectedTab: 'home' })}}
+          >
+            <View style={ styles.home }/>
+          </TabNavigator.Item>
+          <TabNavigator.Item
+            selected={this.state.selectedTab === 'popular'}
+            title="流行"
+            renderIcon={() => <Image source={require('./image/ic_polular.png')} style={[styles.image, { tintColor: '#4998a1'}]} />}
+            renderSelectedIcon={() => <Image source={require('./image/ic_polular.png')} style={[styles.image, { tintColor: '#4998a1'}]}/>}
+            onPress={ () => { this.setState({ selectedTab: 'popular' })}}
+          >
+            <View style={ styles.popular }/>
+          </TabNavigator.Item>
+        </TabNavigator>
       </View>
     );
   }
@@ -34,20 +51,20 @@ export default class github extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
     backgroundColor: '#F5FCFF',
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
+  home: {
+    flex: 1,
+    backgroundColor: '#4998a1'
   },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
+  popular: {
+    flex: 1,
+    backgroundColor: '#76488e'
   },
+  image: {
+    height: 22,
+    width: 22
+  }
 });
 
 AppRegistry.registerComponent('github', () => github);
