@@ -17,7 +17,7 @@ export default class github extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedTab: 'home'
+      selectedTab: 'popular'
     }
   }
   render() {
@@ -25,23 +25,44 @@ export default class github extends Component {
       <View style={styles.container}>
         <TabNavigator>
           <TabNavigator.Item
-            selected={this.state.selectedTab === 'home'}
-            title="首页"
-            selectedTitleStyle={{ color : 'red'}}
-            renderIcon={() => <Image source={require('./image/ic_polular.png')} style={[styles.image]} />}
-            renderSelectedIcon={() => <Image source={require('./image/ic_polular.png')} style={[styles.image, { tintColor: '#4998a1'}]} />}
-            onPress={ () => { this.setState({ selectedTab: 'home' })}}
-          >
-            <View style={ styles.home }/>
-          </TabNavigator.Item>
-          <TabNavigator.Item
             selected={this.state.selectedTab === 'popular'}
-            title="流行"
+            title="popular"
+            selectedTitleStyle= { styles.selectedTitleStyle }
             renderIcon={() => <Image source={require('./image/ic_polular.png')} style={[styles.image]} />}
-            renderSelectedIcon={() => <Image source={require('./image/ic_polular.png')} style={[styles.image, { tintColor: '#4998a1'}]}/>}
+            renderSelectedIcon={() => <Image source={require('./image/ic_polular.png')} style={[styles.image, styles.tintColor ]} />}
             onPress={ () => { this.setState({ selectedTab: 'popular' })}}
           >
-            <View style={ styles.popular }/>
+            <View style={ styles.popularView }/>
+          </TabNavigator.Item>
+          <TabNavigator.Item
+            selected={this.state.selectedTab === 'trending'}
+            title="trending"
+            selectedTitleStyle= { styles.selectedTitleStyle }
+            renderIcon={() => <Image source={require('./image/ic_trending.png')} style={[styles.image]} />}
+            renderSelectedIcon={() => <Image source={require('./image/ic_trending.png')} style={[styles.image, styles.tintColor]}/>}
+            onPress={ () => { this.setState({ selectedTab: 'trending' })}}
+          >
+            <View style={ styles.trendView }/>
+          </TabNavigator.Item>
+          <TabNavigator.Item
+            selected={this.state.selectedTab === 'favorite'}
+            title="Favorite"
+            selectedTitleStyle= { styles.selectedTitleStyle }
+            renderIcon={() => <Image source={require('./image/ic_favorite.png')} style={[styles.image ]} />}
+            renderSelectedIcon={() => <Image source={require('./image/ic_favorite.png')} style={[styles.image, styles.tintColor]} />}
+            onPress={ () => { this.setState({ selectedTab: 'favorite' })}}
+          >
+            <View style={ styles.favoriteView }/>
+          </TabNavigator.Item>
+          <TabNavigator.Item
+            selected={this.state.selectedTab === 'my'}
+            title="my"
+            selectedTitleStyle= { styles.selectedTitleStyle }
+            renderIcon={() => <Image source={require('./image/ic_my.png')} style={[styles.image]} />}
+            renderSelectedIcon={() => <Image source={require('./image/ic_my.png')} style={[styles.image, styles.tintColor]}/>}
+            onPress={ () => { this.setState({ selectedTab: 'my' })}}
+          >
+            <View style={ styles.myView }/>
           </TabNavigator.Item>
         </TabNavigator>
       </View>
@@ -54,17 +75,31 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#F5FCFF',
   },
-  home: {
+  popularView: {
+    flex: 1,
+    backgroundColor: '#76488e'
+  },
+  trendView: {
     flex: 1,
     backgroundColor: '#4998a1'
   },
-  popular: {
+  favoriteView: {
     flex: 1,
-    backgroundColor: '#76488e'
+    backgroundColor: '#e77005'
+  },
+  myView: {
+    flex: 1,
+    backgroundColor: '#4f629f'
   },
   image: {
     height: 22,
     width: 22
+  },
+  tintColor: {
+    tintColor: '#4998a1'
+  },
+  selectedTitleStyle: {
+    color: '#4998a1'
   }
 });
 
