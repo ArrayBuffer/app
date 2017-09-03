@@ -8,7 +8,12 @@ import {
 } from 'react-native';
 
 
-// 顶部导航条
+/**
+ * Request: http request
+ * NavigationBar: common NavigationBar
+ */
+import Request from '../http';
+import { api } from '../api';
 import NavigationBar from './NavigationBar';
 
 
@@ -35,17 +40,29 @@ export default class Option extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      options: '128-iPhone6s'
+      options: '128-iPhone6s',
+      evaluateOptions: []
     };
     this.getButton = this.getButton.bind(this);
   }
 
   getButton(image) {
     return (
-      <TouchableOpacity onPress = { () => { this.props.navigator.pop() }}>
-        <Image style={ iconStyle } source={image}/>
+      <TouchableOpacity onPress={() => {
+        this.props.navigator.pop()
+      }}>
+        <Image style={iconStyle} source={image}/>
       </TouchableOpacity>
     )
+  }
+
+  getEvaluateOptions() {
+    Request.get(api.products)
+      .then( res => {
+        this.setState({
+          evaluateOptions: res.products
+        })
+      })
   }
 
   render() {
@@ -66,6 +83,8 @@ export default class Option extends Component {
             this.props.navigator.pop();
           }}
         >返回到机型页面</Text>
+        <Text style={styles.text} onPress={ () => { this.getEvaluateOptions() }}>{'Get Data'}</Text>
+        <Text>{JSON.stringify(this.state.evaluateOptions)}</Text>
       </View>
     )
   }

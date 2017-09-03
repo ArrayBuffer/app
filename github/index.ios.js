@@ -10,6 +10,7 @@ import {
   Image,
   StyleSheet,
   AppRegistry,
+  FlatList
 } from 'react-native';
 
 import { Navigator } from 'react-native-deprecated-custom-components';
