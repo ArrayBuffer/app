@@ -30,7 +30,7 @@ export default class github extends Component {
       <View style={styles.container}>
         <Navigator
           initialRoute={{ component: Model }}
-          configureScene = { (route, routeStack) => Navigator.SceneConfigs.FloatFromRight }
+          // configureScene = { (route, routeStack) => Navigator.SceneConfigs.FloatFromRight }
           renderScene={(route, navigator) => {
             let Component = route.component;
             return <Component navigator={navigator} {...route.params}/>
