@@ -3,7 +3,7 @@ export default class RepositoryData {
     return new Promise( (resolve, reject) => {
       fetch(url)
         .then( res => res.json())
-        .tehn( res => {
+        .then( res => {
           resolve(res)
         })
         .catch( err => {

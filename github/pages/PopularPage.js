@@ -2,61 +2,47 @@ import React, {Component} from 'react';
 import {
   View,
   Text,
-  Image,
-  TextInput,
   StyleSheet
 } from 'react-native';
+import ScrollableTabView, {
+  DefaultTabBar
+} from 'react-native-scrollable-tab-view';
 
-import api from '../config';
-import Request from '../http';
-import RepositoryData from '../expand/Repository.data';
-
+import NavigationBar from '../components/NavigationBar';
+import PopularTab from '../components/PopularTab';
 
 export default class PopularPage extends Component {
 
-  constructor(props){
+  constructor(props) {
     super(props);
-    this.repositoryData = new RepositoryData();
     this.state = {
-      repositoryList: [],
-      status: 0,
-      text: ''
+      key: '',
+      text: '',
+      repositoryList: ''
     };
-    this.request = this.request.bind(this);
-    this.textChangeHandler = this.textChangeHandler.bind(this);
-  }
-
-   request() {
-    let key = this.state.text;
-    console.log(key);
-    this.repositoryData.getRepository(api.getRepository + `?q=${key}&sort=stars`)
-      .then( res => {
-        this.setState({
-          repositoryList: JSON.stringify(res),
-          status: 2
-        })
-      })
-      .catch( err => {
-        this.setState({
-          repositoryList: JSON.stringify(err)
-        })
-      })
-  }
-
-  textChangeHandler() {
-
   }
 
   render() {
-    return <View style={ styles.container}>
-      <Text>测试宣传单</Text>
-      <Text>测试宣传单</Text>
-      <Text>测试宣传单</Text>
-      <Text onPress = { () => this.request() }>获取数据</Text>
-      <TextInput style = { styles.input } value={ this.state.text } onChangeText = { text => this.setState({ text: text }) }/>
-      <Text>{ this.state.repositoryList }</Text>
-      <Text>{ this.state.status }</Text>
-      <Text>{ this.state.text }</Text>
+
+    let navigationBar =
+      <NavigationBar
+        title={'最热'}
+        statusBar={ styles.statusBar }
+      />;
+
+    return <View style={styles.container}>
+      { navigationBar }
+      <ScrollableTabView
+        renderTabBar={() => <DefaultTabBar/>}
+        tabBarBackgroundColor = { '#2196f3' }
+        tabBarActiveTextColor = { '#fff' }
+        tabBarInactiveTextColor = { 'mintcream' }
+        tabBarUnderlineStyle = { styles.tabBarUnderlineStyle }
+      >
+        <PopularTab tabLabel='react'/>
+        <PopularTab tabLabel='angular'/>
+        <PopularTab tabLabel='Vue'/>
+      </ScrollableTabView>
     </View>
   }
 }
@@ -69,5 +55,12 @@ const styles = StyleSheet.create({
   input: {
     height: 40,
     borderWidth: 1
-  }
+  },
+  tabBarUnderlineStyle: {
+    height: 2,
+    backgroundColor: '#fff'
+  },
+  statusBar: {
+
+  },
 });

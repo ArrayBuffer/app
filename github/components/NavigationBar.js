@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     height: Platform.OS === 'ios' ? NAV_BAR_HEIGHT_IOS : NAV_BAR_HEIGHT_ANDROID,
-    backgroundColor: '#0af',
+    backgroundColor: '#2196f3',
     flexDirection: 'row'
   },
   titleViewContainer: {
@@ -95,6 +95,6 @@ const styles = StyleSheet.create({
   },
   statusBarWrap: {
     height: Platform.OS === 'ios' ? STATUS_BAR_HEIGHT : 0,
-    backgroundColor: '#0af'
+    backgroundColor: '#2196f3'
   }
 });
