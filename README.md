@@ -10,10 +10,9 @@
 
 ### 问题汇总
 
-1. 执行 react-native run-android 时下载 gradle-2.14.1-all.zip 很慢
+1、执行 react-native run-android 时下载 gradle-2.14.1-all.zip 很慢
 
-错误示范：  
-本来是 gradle-3.3 版本，在命令行 执行 react-native run-android 后发现速度太慢，强制结束下载，报错如下：
+错误示范：本来是 gradle-3.3 版本，在命令行 执行 react-native run-android 后发现速度太慢，强制结束下载，报错如下：
 
 ![Alt 错误](./logs/01.png)
 
@@ -21,4 +20,4 @@
 gradle-2.14.1-all.zip 有 60M 下载很慢, 可以将它下载到本地，修改 gradle-wrapper.properties 中的地址  
 无语的是用浏览器下载也是龟速，只有去网上找国内的镜像文件了...
 
-2. 
+2、
