@@ -1,0 +1,3 @@
+rootProject.name = 'hue'
+
+include ':app'

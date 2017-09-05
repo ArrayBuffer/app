@@ -9,7 +9,10 @@ import {
 
 import {Navigator} from 'react-native-deprecated-custom-components';
 import TabNavigator from 'react-native-tab-navigator';
-import PopularPage from './PopularPage'
+import PopularPage from './PopularPage';
+import MyPage from './MyPage';
+import FavoritePage from './FavoritePage';
+import AsyncStorageTest from '../components/AsyncStorageTest';
 
 const ic_polular = require('../image/ic_polular.png');
 const ic_trending = require('../image/ic_trending.png');
@@ -45,7 +48,6 @@ export default class HomePage extends Component {
               this.setState({selectedTab: 'popular'})
             }}
           >
-            {/*<View style={styles.popularView}/>*/}
             <PopularPage/>
           </TabNavigator.Item>
           <TabNavigator.Item
@@ -58,7 +60,7 @@ export default class HomePage extends Component {
               this.setState({selectedTab: 'trending'})
             }}
           >
-            <View style={ styles.trendView }/>
+            <AsyncStorageTest/>
           </TabNavigator.Item>
           <TabNavigator.Item
             selected={this.state.selectedTab === 'favorite'}
@@ -70,7 +72,7 @@ export default class HomePage extends Component {
               this.setState({ selectedTab: 'favorite' })
             }}
           >
-            <View style={ styles.favoriteView }/>
+            <FavoritePage/>
           </TabNavigator.Item>
           <TabNavigator.Item
             selected={this.state.selectedTab === 'my'}
@@ -82,7 +84,7 @@ export default class HomePage extends Component {
               this.setState({selectedTab: 'my'})
             }}
           >
-            <View style={ styles.myView }/>
+            <MyPage { ...this.props }/>
           </TabNavigator.Item>
         </TabNavigator>
       </View>
@@ -116,9 +118,9 @@ const styles = StyleSheet.create({
     width: 22
   },
   tintColor: {
-    tintColor: '#4998a1'
+    tintColor: '#2196F3'
   },
   selectedTitleStyle: {
-    color: '#4998a1'
+    color: '#2196F3'
   }
 });

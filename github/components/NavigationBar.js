@@ -56,8 +56,9 @@ export default class NavigationBar extends Component {
       rightButton = this.props.rightButton;
     return (
       <View style={ styles.container }>
-        <View style={[styles.statusBarWrap, this.props.statusBar]}>
-          <StatusBar/>
+        <View style={ styles.statusBarWrap }>
+          {/*{使用...语法是注意：obj必须是一个 plainObject }*/}
+          <StatusBar {...this.props.statusBar }/>
         </View>
         <View style={ styles.NavViewContainer }>
           {leftButton}

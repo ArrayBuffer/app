@@ -11,8 +11,10 @@ import ScrollableTabView, {
 
 import NavigationBar from '../components/NavigationBar';
 import PopularTab from '../components/PopularTab';
+import CustomKeyPage from './CustomKeyPage';
 
-export default class PopularPage extends Component {
+
+export default class MyPage extends Component {
 
   constructor(props) {
     super(props);
@@ -25,25 +27,28 @@ export default class PopularPage extends Component {
 
   render() {
 
-    let navigationBar =
+    let navigationBar = (
       <NavigationBar
-        title={'最热'}
+        title={'我的'}
         statusBar={{backgroundColor: '#2196F3'}}
-      />;
+      />
+    );
+
+    let customLink = (
+      <Text
+        onPress = { () => {
+          this.props.navigator.push({
+            component: CustomKeyPage,
+            params: {...this.props}
+          })
+        }}
+        style = { styles.customLink }
+      >设置</Text>
+    );
 
     return <View style={styles.container}>
       { navigationBar }
-      <ScrollableTabView
-        renderTabBar={() => <DefaultTabBar/>}
-        tabBarBackgroundColor = { '#2196f3' }
-        tabBarActiveTextColor = { '#fff' }
-        tabBarInactiveTextColor = { 'mintcream' }
-        tabBarUnderlineStyle = { styles.tabBarUnderlineStyle }
-      >
-        <PopularTab tabLabel='react'/>
-        <PopularTab tabLabel='angular'/>
-        <PopularTab tabLabel='Vue'/>
-      </ScrollableTabView>
+      { customLink }
     </View>
   }
 }
@@ -64,4 +69,7 @@ const styles = StyleSheet.create({
   statusBar: {
     backgroundColor: '#2196F3'
   },
+  customLink: {
+    margin: 10
+  }
 });

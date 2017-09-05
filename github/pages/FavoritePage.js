@@ -12,7 +12,7 @@ import ScrollableTabView, {
 import NavigationBar from '../components/NavigationBar';
 import PopularTab from '../components/PopularTab';
 
-export default class PopularPage extends Component {
+export default class FavoritePage extends Component {
 
   constructor(props) {
     super(props);
@@ -27,23 +27,12 @@ export default class PopularPage extends Component {
 
     let navigationBar =
       <NavigationBar
-        title={'最热'}
+        title={'收藏'}
         statusBar={{backgroundColor: '#2196F3'}}
       />;
 
     return <View style={styles.container}>
       { navigationBar }
-      <ScrollableTabView
-        renderTabBar={() => <DefaultTabBar/>}
-        tabBarBackgroundColor = { '#2196f3' }
-        tabBarActiveTextColor = { '#fff' }
-        tabBarInactiveTextColor = { 'mintcream' }
-        tabBarUnderlineStyle = { styles.tabBarUnderlineStyle }
-      >
-        <PopularTab tabLabel='react'/>
-        <PopularTab tabLabel='angular'/>
-        <PopularTab tabLabel='Vue'/>
-      </ScrollableTabView>
     </View>
   }
 }

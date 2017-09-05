@@ -2,7 +2,9 @@ import React, {Component} from 'react';
 import {
   View,
   Text,
+  Image,
   RefreshControl,
+  TouchableOpacity,
   StyleSheet
 } from 'react-native';
 import ScrollableTabView, {
@@ -12,7 +14,20 @@ import ScrollableTabView, {
 import NavigationBar from '../components/NavigationBar';
 import PopularTab from '../components/PopularTab';
 
-export default class PopularPage extends Component {
+/**
+ * backButtonIcon: 返回按钮图标
+ * starButtonIcon: 收藏按钮图标
+ * iconStyle: 图标尺寸
+ */
+const backButtonIcon = require('../image/ic_arrow_back_white_36pt.png');
+const starButtonIcon = require('../image/ic_star.png');
+const iconStyle = {
+  width: 22,
+  height: 22,
+  margin: 5
+};
+
+export default class CustomKeyPage extends Component {
 
   constructor(props) {
     super(props);
@@ -23,27 +38,29 @@ export default class PopularPage extends Component {
     };
   }
 
+  getButton(image) {
+    return (
+      <TouchableOpacity onPress={() => {
+        this.props.navigator.pop()
+      }}>
+        <Image style={iconStyle} source={image}/>
+      </TouchableOpacity>
+    )
+  }
+
   render() {
 
-    let navigationBar =
+    let navigationBar = (
       <NavigationBar
-        title={'最热'}
+        title={'自定义标签'}
         statusBar={{backgroundColor: '#2196F3'}}
-      />;
+        leftButton={this.getButton(backButtonIcon)}
+        rightButton={this.getButton(starButtonIcon)}
+      />
+    );
 
     return <View style={styles.container}>
       { navigationBar }
-      <ScrollableTabView
-        renderTabBar={() => <DefaultTabBar/>}
-        tabBarBackgroundColor = { '#2196f3' }
-        tabBarActiveTextColor = { '#fff' }
-        tabBarInactiveTextColor = { 'mintcream' }
-        tabBarUnderlineStyle = { styles.tabBarUnderlineStyle }
-      >
-        <PopularTab tabLabel='react'/>
-        <PopularTab tabLabel='angular'/>
-        <PopularTab tabLabel='Vue'/>
-      </ScrollableTabView>
     </View>
   }
 }
