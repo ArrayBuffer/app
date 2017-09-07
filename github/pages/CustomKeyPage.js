@@ -4,32 +4,23 @@ import {
   Text,
   Image,
   ScrollView,
-  RefreshControl,
   TouchableOpacity,
   StyleSheet
 } from 'react-native';
-import ScrollableTabView, {
-  DefaultTabBar
-} from 'react-native-scrollable-tab-view';
+
+import Language, { FLAG } from '../expand/Language';
+import CommonUtils from '../utils/CommonUtils';
 
 import NavigationBar from '../components/NavigationBar';
-import PopularTab from '../components/PopularTab';
 import BackButton from '../components/BackButton';
-
-import Language, {FLAG} from '../expand/Language';
+import CheckBox from 'react-native-check-box';
 
 /**
  * backButtonIcon: 返回按钮图标
  * starButtonIcon: 收藏按钮图标
- * iconStyle: 图标尺寸
  */
-const backButtonIcon = require('../image/ic_arrow_back_white_36pt.png');
-const starButtonIcon = require('../image/ic_star.png');
-const iconStyle = {
-  width: 22,
-  height: 22,
-  margin: 5
-};
+const checkedIcon = require('../image/ic_check_box.png');
+const unCheckedImage = require('../image/ic_check_box_outline_blank.png');
 
 export default class CustomKeyPage extends Component {
 
@@ -37,8 +28,14 @@ export default class CustomKeyPage extends Component {
     super(props);
     this.state = {
       dataList: [],
+      changedList: []
     };
-    this.language = new Language(FLAG.key)
+    this.language = new Language(FLAG.key);
+    this.loadData = this.loadData.bind(this);
+    this.onSaveData = this.onSaveData.bind(this);
+    this.renderTagList = this.renderTagList.bind(this);
+    this.renderCheckBox = this.renderCheckBox.bind(this);
+    this.checkBoxClickHandler = this.checkBoxClickHandler.bind(this);
   }
 
   // 获取keys
@@ -58,8 +55,37 @@ export default class CustomKeyPage extends Component {
     this.loadData()
   }
 
-  rightButtonTapHandler() {
+  checkBoxClickHandler(data) {
+    let dataList = this.state.dataList;
+    for(let i = 0; i < dataList.length; i++) {
+      if(dataList[i].name === data.name) {
+        dataList[i].checked = !dataList[i].checked;
+        let res = CommonUtils.updateArray(data, this.state.changedList);
+        this.setState({
+          changedList: []
+        })
+      }
+    }
+    this.setState({ dataList });
+  }
 
+  onSaveData() {
+    this.state.changedList.length !== 0 && this.language.save(this.state.dataList);
+    this.props.navigator.pop();
+  }
+
+  renderCheckBox(data){
+    let leftText = data.name;
+    return(
+      <CheckBox
+        style = { styles.checkBox }
+        onClick={ () => this.checkBoxClickHandler(data) }
+        leftText={ leftText }
+        isChecked={ data.checked }
+        checkedImage={ <Image style = {{ tintColor: '#6495ED' }} source = { checkedIcon }/> }
+        unCheckedImage={ <Image style = {{ tintColor: '#6495ED' }} source = { unCheckedImage }/>}
+     />
+    )
   }
 
   renderTagList() {
@@ -71,8 +97,8 @@ export default class CustomKeyPage extends Component {
       views.push(
         <View key={i}>
           <View style = { styles.row }>
-            <Text>{ data[i].name }</Text>
-            <Text>{ data[i+1].name }</Text>
+            { this.renderCheckBox(data[i]) }
+            { this.renderCheckBox(data[i+1]) }
           </View>
           <View style = { styles.line }/>
         </View>
@@ -82,8 +108,8 @@ export default class CustomKeyPage extends Component {
     views.push(
       <View key={len - 1}>
         <View style = { styles.row }>
-          { len % 2 === 0 ? <Text>{ data[len-2].name }</Text> : null}
-          <Text>{ data[len-1].name }</Text>
+          { len % 2 === 0 ? this.renderCheckBox(data[len-2]) : null}
+          { this.renderCheckBox(data[len-1]) }
         </View>
         <View style = { styles.line }/>
       </View>
@@ -97,7 +123,7 @@ export default class CustomKeyPage extends Component {
     let rightButton = (
       <TouchableOpacity>
         <View style={styles.rightButton}>
-          <Text style={styles.rightButtonText}>保存</Text>
+          <Text onPress = { () => this.onSaveData() } style={styles.rightButtonText}>保存</Text>
         </View>
       </TouchableOpacity>
     );
@@ -117,12 +143,12 @@ export default class CustomKeyPage extends Component {
       {navigationBar}
       <ScrollView>
         <Text>自定义标识</Text>
-        {this.renderTagList()}
+        { this.renderTagList() }
+        <Text>{ this.state.changedList.length }</Text>
       </ScrollView>
     </View>
   }
 }
-
 
 const styles = StyleSheet.create({
   container: {
@@ -146,11 +172,15 @@ const styles = StyleSheet.create({
     color: 'white'
   },
   line: {
-    height: 1,
-    backgroundColor: 'black'
+    height: .5,
+    backgroundColor: 'darkgray'
   },
   row: {
     flexDirection: 'row',
     alignItems: 'center'
+  },
+  checkBox: {
+    flex: 1,
+    padding: 10
   }
 });
