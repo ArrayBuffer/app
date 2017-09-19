@@ -8,8 +8,6 @@ import {
 
 import HomePage from '../pages/HomePage';
 
-// const AppIcon = require('../image/app.png');
-
 export default class WelcomePage extends Component {
   componentDidMount() {
     this.timer = setTimeout(() => {
@@ -26,7 +24,6 @@ export default class WelcomePage extends Component {
   render() {
     return <View style={ styles.container}>
       <Text style={ styles.container } >{'回收宝科技'}</Text>
-      {/*<Image source = { AppIcon }/>*/}
       <Image
         style={ styles.logo }
         source={ require('../image/ic_arrow_back_white_36pt.png')}
@@ -34,7 +31,6 @@ export default class WelcomePage extends Component {
     </View>
   }
 }
-
 
 const styles = StyleSheet.create({
   container: {

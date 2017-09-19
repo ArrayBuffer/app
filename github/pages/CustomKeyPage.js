@@ -5,7 +5,8 @@ import {
   Image,
   ScrollView,
   TouchableOpacity,
-  StyleSheet
+  StyleSheet,
+  Alert
 } from 'react-native';
 
 import Language, { FLAG } from '../expand/Language';
@@ -60,18 +61,41 @@ export default class CustomKeyPage extends Component {
     for(let i = 0; i < dataList.length; i++) {
       if(dataList[i].name === data.name) {
         dataList[i].checked = !dataList[i].checked;
-        let res = CommonUtils.updateArray(data, this.state.changedList);
-        this.setState({
-          changedList: []
-        })
+        CommonUtils.updateArray(data, this.state.changedList);
       }
     }
-    this.setState({ dataList });
+    this.setState({ dataList: dataList });
   }
 
   onSaveData() {
     this.state.changedList.length !== 0 && this.language.save(this.state.dataList);
     this.props.navigator.pop();
+  }
+
+  onBack() {
+    if(this.state.changedList.length === 0) {
+      this.props.navigator.pop();
+      return;
+    }
+    Alert.alert(
+      '提示',
+      '要保存修改吗?',
+      [
+        {
+          'text': '不保存',
+          onPress: () => {
+            this.props.navigator.pop()
+          },
+          style: 'cancel'
+        },
+        {
+          text: '保存',
+          onPress: () => {
+            this.onSaveData()
+          }
+        }
+      ]
+    )
   }
 
   renderCheckBox(data){
@@ -133,7 +157,7 @@ export default class CustomKeyPage extends Component {
       <NavigationBar
         title={'自定义标签'}
         leftButton={<BackButton callback={() => {
-          this.props.navigator.pop()
+          this.onBack();
         }}/>}
         rightButton={rightButton}
       />
@@ -142,9 +166,7 @@ export default class CustomKeyPage extends Component {
     return <View style={styles.container}>
       {navigationBar}
       <ScrollView>
-        <Text>自定义标识</Text>
         { this.renderTagList() }
-        <Text>{ this.state.changedList.length }</Text>
       </ScrollView>
     </View>
   }

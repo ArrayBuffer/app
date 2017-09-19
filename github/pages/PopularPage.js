@@ -11,6 +11,7 @@ import ScrollableTabView, {
 
 import NavigationBar from '../components/NavigationBar';
 import PopularTab from '../components/PopularTab';
+import Language, { FLAG } from '../expand/Language';
 
 export default class PopularPage extends Component {
 
@@ -19,8 +20,22 @@ export default class PopularPage extends Component {
     this.state = {
       key: '',
       text: '',
-      repositoryList: ''
+      repositoryList: '',
+      keyList: []
     };
+    this.language = new Language(FLAG.key);
+  }
+
+  componentDidMount() {
+    this.language.fetch()
+      .then(result => {
+        this.setState({
+          keyList: result
+        })
+      })
+      .catch(err => {
+        console.log(err);
+      })
   }
 
   render() {
@@ -31,6 +46,8 @@ export default class PopularPage extends Component {
         statusBar={{backgroundColor: '#2196F3'}}
       />;
 
+    let keyList = this.state.keyList;
+
     return <View style={styles.container}>
       { navigationBar }
       <ScrollableTabView
@@ -40,9 +57,14 @@ export default class PopularPage extends Component {
         tabBarInactiveTextColor = { 'mintcream' }
         tabBarUnderlineStyle = { styles.tabBarUnderlineStyle }
       >
-        <PopularTab tabLabel='react'/>
-        <PopularTab tabLabel='angular'/>
-        <PopularTab tabLabel='Vue'/>
+        {
+          keyList.map((value, index, arr) => {
+            let item = arr[index];
+            if(item.checked) {
+              return <PopularTab key={ item.name } tabLabel={item.name}/>
+            }
+          })
+        }
       </ScrollableTabView>
     </View>
   }
